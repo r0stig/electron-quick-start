@@ -10,9 +10,50 @@
     We are using Node.js <script>document.write(process.versions.node)</script>,
     Chromium <script>document.write(process.versions.chrome)</script>,
     and Electron <script>document.write(process.versions.electron)</script>.
+    <button id="send_notification">Send notification</button>
+    <div id="log"></div>
+    <script>
+      function log (msg) {
+        const log = document.createElement('div')
+          log.innerHTML = `${new Date().toISOString()} - ${msg}`
+          document.querySelector('#log').appendChild(log)
+      }
+      document.querySelector('#send_notification').addEventListener('click', function () {
+        console.log('send notification')
+        const id = Math.round(Math.random() * 10000)
+        const n = new Notification('title', {
+          body: `Body ${id}`,
+          tag: '1'
+        })
+
+        n.addEventListener('click', function () {
+          log(`onclick (${id})`)
+          // Denna löser problemet men endast om man klickar på varje notis..
+          // n.close()
+        })
+        /*
+        n.onclick = function () {
+          log(`onclick (${id})`)
+        }*/
+
+        n.onclose = function () {
+          log(`onclose (${id})`)
+          n.close()
+        }
+
+        n.onshow = function () {
+          log(`onshow (${id})`)
+        }
+
+        n.onerror = function () {
+          log(`onerror (${id})`)
+        }
+      })
+    </script>
 
     <script>
       // You can also require other files to run in this process
+
       require('./renderer.js')
     </script>
   </body>
