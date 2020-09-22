@@ -28,13 +28,7 @@
 
         n.addEventListener('click', function () {
           log(`onclick (${id})`)
-          // Denna löser problemet men endast om man klickar på varje notis..
-          // n.close()
         })
-        /*
-        n.onclick = function () {
-          log(`onclick (${id})`)
-        }*/
 
         n.onclose = function () {
           log(`onclose (${id})`)
